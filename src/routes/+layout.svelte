@@ -3,7 +3,9 @@
 	let { children } = $props();
 </script>
 
-<h1><strong>Primal Poetry</strong></h1>
+<header>
+	<h1><strong>Primal Poetry</strong></h1>
+</header>
 
 <div>
 	{@render children()}
@@ -15,6 +17,7 @@
         margin: 0;
         display: flex;
         flex-direction: column;
+		background-color: #FFD1A2;
     }
 
 	div {
@@ -26,7 +29,7 @@
 	}
 
 	h1 {
-		padding: 2rem;
+		padding: 1.5rem;
 		text-align: center;
 		font-size: 1.5rem;
 	}

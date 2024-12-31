@@ -19,7 +19,7 @@
 
 <strong class="container">
     {#if scoreTeamHappy !== undefined && scoreTeamMad !== undefined}
-        <div class="text-center result">
+        <div class="text-center text-6xl">
         {#if scoreTeamHappy > scoreTeamMad}
             Team Happy Wins!
         {:else if scoreTeamMad > scoreTeamHappy}

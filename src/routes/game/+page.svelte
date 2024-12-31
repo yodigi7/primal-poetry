@@ -23,7 +23,7 @@
 	let scoreTeamHappy = 0; // Team Happy's score
 	let scoreTeamMad = 0; // Team Mad's score
 	let currentTeam = 1; // Track which team is playing (1 or 2)
-	let otherTeam = 2;
+	let otherTeam = currentTeam === 1 ? "Mad" : "Happy";
 	/**
 	 * @type {number}
 	 */
@@ -34,7 +34,7 @@
 	 * @return {boolean} returns true if found game state, otherwise return false if starting fresh
 	 */
 	function loadGameState() {
-		const gameStateString = localStorage.getItem('gameState');
+		const gameStateString = sessionStorage.getItem('gameState');
 		if (gameStateString) {
 			const gameState = JSON.parse(gameStateString);
 			({
@@ -66,7 +66,7 @@
 			currentWord1,
 			currentWord3
 		});
-		localStorage.setItem('gameState', gameState);
+		sessionStorage.setItem('gameState', gameState);
 	}
 
 	/**
@@ -76,13 +76,13 @@
 		interval = setInterval(() => {
 			if (wordList.length <= 0) {
 				clearInterval(interval);
-				// Go to stop screen
+        endGame();
 			} else if (timer > 0) {
 				timer--;
 				saveGameState();
 			} else {
 				clearInterval(interval);
-				// Go to stop screen
+        navigator.vibrate(500);
 			}
 		}, 1000);
 	}
@@ -93,10 +93,10 @@
 	function switchTurn() {
 		if (currentTeam === 1) {
 			currentTeam = 2;
-			otherTeam = 1;
+			otherTeam = "Happy";
 		} else {
 			currentTeam = 1;
-			otherTeam = 2;
+			otherTeam = "Mad";
 		}
 		// Reset the timer and start again
 		timer = turnDuration;
@@ -143,7 +143,7 @@
    * Go to end game screen.
    */
 	function endGame() {
-		localStorage.removeItem('gameState');
+		sessionStorage.removeItem('gameState');
     goto(`${base}/end?teamHappy=${scoreTeamHappy}&teamMad=${scoreTeamMad}`)
 	}
 
@@ -160,15 +160,17 @@
 </script>
 
 <div class="root">
-	<div class="inline-flex space-x-8 py-4">
-		<p class={currentTeam === 1 ? 'activeTeam' : ''}><strong>Team Happy:</strong> {scoreTeamHappy}</p>
-		<p class={currentTeam === 2 ? 'activeTeam' : ''}><strong>Team Mad:</strong> {scoreTeamMad}</p>
-	</div>
+  <div>
+    <div class="inline-flex space-x-8 pb-4">
+      <p class={currentTeam === 1 ? 'activeTeam' : ''}><strong>Team Happy:</strong> {scoreTeamHappy}</p>
+      <p class={currentTeam === 2 ? 'activeTeam' : ''}><strong>Team Mad:</strong> {scoreTeamMad}</p>
+    </div>
+    <p class="text-center">Time remaining: {timer}s</p>
+  </div>
 
 	<div class="flex flex-col space-y-1">
-		<p>Time remaining: {timer}s</p>
-		<p>1 point: <strong>{currentWord1}</strong></p>
-		<p>3 point: <strong>{currentWord3}</strong></p>
+		<p>1 point: <strong class="text-2xl">{currentWord1}</strong></p>
+		<p>3 point: <strong class="text-2xl">{currentWord3}</strong></p>
 	</div>
 
 	<div class="py-8">
@@ -178,15 +180,15 @@
 	</div>
 
 	{#if wordList.length <= 0}
-		OUT OF CARDS!
+  <strong>OUT OF CARDS!</strong>
 	{/if}
 
 	{#if timer === 0}
-		<p>Out of Time!</p>
+		<p class="text-xl"><strong>Out of Time!</strong></p>
 		<p>Pass to Team {otherTeam}</p>
-		<div>
-			<button on:click={switchTurn}>Start Next Turn</button>
-			<button on:click={endGame}>End Game</button>
+		<div class="py-4">
+			<button class="mr-4" on:click={switchTurn}>Start Turn</button>
+			<button class="ml-4" on:click={endGame}>End Game</button>
 		</div>
 	{/if}
 </div>
@@ -196,19 +198,21 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+    height: 100%;
+    justify-content: space-around;
 	}
 	.minus1 {
-		background-color: red;
+		background-color: #E53935;
 	}
 	.plus1 {
-		background-color: lightgreen;
+		background-color: #A8E6A1;
 	}
 	.plus3 {
-		background-color: green;
+		background-color: #4CAF50;
 	}
 	button {
 		border: 2px solid darkslategray;
-		border-radius: 0.125rem;
+		border-radius: 0.25rem;
 		padding: 5px 30px;
 	}
 	.activeTeam {
