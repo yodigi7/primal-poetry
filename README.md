@@ -1,38 +1,25 @@
-# sv
+# Primal Poetry
+Inspired by [Poetry for Neanderthals](https://www.explodingkittens.com/products/poetry-for-neanderthals)
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Play
+Play it here: [https://yodigi7.github.io/primal-poetry/](https://yodigi7.github.io/primal-poetry/)
 
-## Creating a project
+## How to Play
+[![YouTube Video how to play](https://img.youtube.com/vi/hpbqepbvoJ8/0.jpg)](https://www.youtube.com/watch?v=hpbqepbvoJ8)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Project Explained
+This is a SvelteKit project built to play on a single device.
+It automates the shuffling of the deck of cards with the words and keeps track of the timer and all of the other game mechanics.
 
-```bash
-# create a new project in the current directory
-npx sv create
+It uses sessionStorage to save the game state in-case a user accidentally refreshes the page or closes the window.
+I also set it up to be a PWA so it more seamlessly integrates with the mobile experience.
 
-# create a new project in my-app
-npx sv create my-app
-```
+It is currently optimized visually for mobile first as that is the anticipated device it would be played on.
 
-## Developing
+## Future Possibilities
+It would be good to setup a way to have multiple devices synced to one game.
+This would allow for the opposing team to NO a card when a rule was broken.
+It would allow for the game to be played over the internet if needed rather than only in person.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Deploy to Github Pages
+`pnpm run deploy`
