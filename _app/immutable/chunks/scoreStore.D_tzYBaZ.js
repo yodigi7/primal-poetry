@@ -1,0 +1,1 @@
+import{w as s}from"./index.BT908uFy.js";const m=s({teamGlad:0,teamMad:0});function c(){const e=sessionStorage.getItem("gameState");if(e){const r=JSON.parse(e);let a,t;return{scoreTeamGlad:a,scoreTeamMad:t}=r,m.set({teamGlad:a,teamMad:t}),!0}return!1}export{c as l,m as s};
