@@ -2,6 +2,8 @@
 	"short_name": "Poetry",
 	"name": "Primal Poetry",
 	"start_url": "/primal-poetry",
+	"scope": "/primal-poetry",
+	"description": "Fun party game inspired by Poetry for Neanderthals",
 	"icons": [
 		{
 			"src": "favicon.png",
@@ -9,11 +11,22 @@
 			"sizes": "512x512"
 		}
 	],
-	"categories": "games, kids, entertainment",
+	"categories": ["games", "kids", "entertainment"],
 	"orientation": "portrait",
 	"background_color": "#FFD1A2",
 	"display": "standalone",
-	"scope": "/primal-poetry",
+	"display_override": [
+		"standalone",
+		"window-controls-overlay",
+		"fullscreen",
+		"minimal",
+		"browser"
+	],
+	"shortcuts": [{
+		"name": "New Game",
+		"short_name": "New",
+		"url": "/game"
+	}],
 	"theme_color": "#FFD1A2",
-	"description": "Fun party game inspired by Poetry for Neanderthals"
+	"related_applications": []
 }
