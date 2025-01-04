@@ -12,20 +12,19 @@
 </div>
 
 <style>
-    :global(body) {
-        height: 100vh;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-		background-color: #FFD1A2;
-    }
+	:global(body) {
+		height: 100vh;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		background-color: #ffd1a2;
+	}
 
 	div {
 		width: 100%;
 		height: 100%;
 		display: flex;
 		justify-content: center;
-		align-items: center;
 	}
 
 	h1 {

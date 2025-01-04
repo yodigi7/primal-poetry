@@ -1,32 +1,22 @@
 <script>
 	import { onDestroy, onMount } from 'svelte';
-  import { goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	/**
-	 * @type {Array<[string, string]>}
-	 */
 	import fullWordList from '../../word-list.json';
+	import { settings } from '../../stores/settingStore';
+	import { scores } from '../../stores/scoreStore';
 
 	let wordList = fullWordList;
 	// Randomize wordList to "shuffle deck"
 	wordList.sort(() => Math.random() - 0.5);
-	/**
-	 * @type {string}
-	 */
+	/** @type {string} */
 	let currentWord1;
-	/**
-	 * @type {string}
-	 */
+	/** @type {string} */
 	let currentWord3;
-	let turnDuration = 90; // Timer in seconds
-	let timer = turnDuration;
-	let scoreTeamHappy = 0; // Team Happy's score
-	let scoreTeamMad = 0; // Team Mad's score
+	let timer = $settings.turnDuration;
 	let currentTeam = 1; // Track which team is playing (1 or 2)
-	let otherTeam = currentTeam === 1 ? "Mad" : "Happy";
-	/**
-	 * @type {number}
-	 */
+	let otherTeam = currentTeam === 1 ? 'Mad' : 'Glad';
+	/** @type {number} */
 	let interval;
 
 	/**
@@ -37,9 +27,10 @@
 		const gameStateString = sessionStorage.getItem('gameState');
 		if (gameStateString) {
 			const gameState = JSON.parse(gameStateString);
+			let tempScoreGlad, tempScoreMad;
 			({
-				scoreTeamHappy,
-				scoreTeamMad,
+				scoreTeamGlad: tempScoreGlad,
+				scoreTeamMad: tempScoreMad,
 				timer,
 				wordList,
 				currentTeam,
@@ -47,18 +38,21 @@
 				currentWord1,
 				currentWord3
 			} = gameState);
+			scores.set({ teamGlad: tempScoreGlad, teamMad: tempScoreMad });
 			return true;
 		}
 		return false;
 	}
 
-  /**
-   * Save the current game state to local storage
-   */
+	/**
+	 * Save the current game state to local storage
+	 */
 	function saveGameState() {
+		let tempScoreGlad = $scores.teamGlad;
+		let tempScoreMad = $scores.teamMad;
 		const gameState = JSON.stringify({
-			scoreTeamHappy,
-			scoreTeamMad,
+			scoreTeamGlad: tempScoreGlad,
+			scoreTeamMad: tempScoreMad,
 			timer,
 			wordList,
 			currentTeam,
@@ -76,13 +70,13 @@
 		interval = setInterval(() => {
 			if (wordList.length <= 0) {
 				clearInterval(interval);
-        endGame();
+				endGame();
 			} else if (timer > 0) {
 				timer--;
 				saveGameState();
 			} else {
 				clearInterval(interval);
-        navigator.vibrate(500);
+				navigator.vibrate(500);
 			}
 		}, 1000);
 	}
@@ -93,13 +87,13 @@
 	function switchTurn() {
 		if (currentTeam === 1) {
 			currentTeam = 2;
-			otherTeam = "Happy";
+			otherTeam = 'Glad';
 		} else {
 			currentTeam = 1;
-			otherTeam = "Mad";
+			otherTeam = 'Mad';
 		}
 		// Reset the timer and start again
-		timer = turnDuration;
+		timer = $settings.turnDuration;
 		getNewWords();
 		startRound();
 	}
@@ -124,9 +118,15 @@
 	 */
 	function updateScore(pointValue) {
 		if (currentTeam === 1) {
-			scoreTeamHappy += pointValue; // Increment score for Team 1
+			scores.update((currentScores) => ({
+				...currentScores,
+				teamGlad: currentScores.teamGlad + pointValue
+			}));
 		} else {
-			scoreTeamMad += pointValue; // Increment score for Team 2
+			scores.update((currentScores) => ({
+				...currentScores,
+				teamMad: currentScores.teamMad + pointValue
+			}));
 		}
 		if (timer > 0) {
 			getNewWords();
@@ -137,14 +137,14 @@
 	let plus1 = () => updateScore(1);
 	let plus3 = () => updateScore(3);
 
-  /**
-   * Remove saved game state from local storage.
-   *
-   * Go to end game screen.
-   */
+	/**
+	 * Remove saved game state from local storage.
+	 *
+	 * Go to end game screen.
+	 */
 	function endGame() {
 		sessionStorage.removeItem('gameState');
-    goto(`${base}/end?teamHappy=${scoreTeamHappy}&teamMad=${scoreTeamMad}`)
+		goto(`${base}/end`);
 	}
 
 	onMount(() => {
@@ -154,23 +154,29 @@
 		startRound();
 	});
 
-  onDestroy(() => {
-    clearInterval(interval);
-  })
+	onDestroy(() => {
+		clearInterval(interval);
+	});
 </script>
 
-<div class="root">
-  <div>
-    <div class="inline-flex space-x-8 pb-4">
-      <p class={currentTeam === 1 ? 'activeTeam' : ''}><strong>Team Happy:</strong> {scoreTeamHappy}</p>
-      <p class={currentTeam === 2 ? 'activeTeam' : ''}><strong>Team Mad:</strong> {scoreTeamMad}</p>
-    </div>
-    <p class="text-center">Time remaining: {timer}s</p>
-  </div>
+<div class="flex min-h-full flex-col items-center justify-around">
+	<div>
+		<div class="inline-flex space-x-8 pb-4">
+			<p class={currentTeam === 1 ? 'activeTeam' : ''}>
+				<strong>Team Glad:</strong>
+				{$scores.teamGlad}
+			</p>
+			<p class={currentTeam === 2 ? 'activeTeam' : ''}>
+				<strong>Team Mad:</strong>
+				{$scores.teamMad}
+			</p>
+		</div>
+		<p class="text-center">Time remaining: {timer}s</p>
+	</div>
 
 	<div class="flex flex-col space-y-1">
-		<p>1 point: <strong class="text-2xl">{currentWord1}</strong></p>
-		<p>3 point: <strong class="text-2xl">{currentWord3}</strong></p>
+		<p>1 point: <strong class="readable text-2xl">{currentWord1}</strong></p>
+		<p>3 point: <strong class="readable text-2xl">{currentWord3}</strong></p>
 	</div>
 
 	<div class="py-8">
@@ -180,40 +186,36 @@
 	</div>
 
 	{#if wordList.length <= 0}
-  <strong>OUT OF CARDS!</strong>
+		<strong>OUT OF CARDS!</strong>
 	{/if}
 
 	{#if timer === 0}
 		<p class="text-xl"><strong>Out of Time!</strong></p>
 		<p>Pass to Team {otherTeam}</p>
-		<div class="py-4">
-			<button class="mr-4" on:click={switchTurn}>Start Turn</button>
-			<button class="ml-4" on:click={endGame}>End Game</button>
+		<div class="flex flex-col space-y-4 py-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+			<button on:click={switchTurn}>Start Turn</button>
+			<button on:click={endGame}>End Game</button>
 		</div>
 	{/if}
 </div>
 
 <style>
-	.root {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-    height: 100%;
-    justify-content: space-around;
+	.readable {
+		font-family: 'Roboto', sans-serif;
 	}
 	.minus1 {
-		background-color: #E53935;
+		background-color: #e53935;
 	}
 	.plus1 {
-		background-color: #A8E6A1;
+		background-color: #a8e6a1;
 	}
 	.plus3 {
-		background-color: #4CAF50;
+		background-color: #4caf50;
 	}
 	button {
 		border: 2px solid darkslategray;
 		border-radius: 0.25rem;
-		padding: 5px 30px;
+		padding: 5px 35px;
 	}
 	.activeTeam {
 		text-decoration: underline;

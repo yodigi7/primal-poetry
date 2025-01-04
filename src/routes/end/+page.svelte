@@ -1,56 +1,50 @@
 <script>
-	// Import the $page store
-	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
+	import { scores, loadGameState } from '../../stores/scoreStore';
 
-	/**
-	 * @type {number | undefined}
-	 */
-    let scoreTeamHappy = $state(undefined);
-	/**
-	 * @type {number | undefined}
-	 */
-    let scoreTeamMad = $state(undefined);
-    $effect.pre(() => {
-        scoreTeamHappy = parseInt(page.url.searchParams.get('teamHappy') ?? "0");
-        scoreTeamMad = parseInt(page.url.searchParams.get('teamMad') ?? "0");
-    });
+	onMount(() => {
+		loadGameState();
+	});
 </script>
 
 <strong class="container">
-    {#if scoreTeamHappy !== undefined && scoreTeamMad !== undefined}
-        <div class="text-center text-6xl">
-        {#if scoreTeamHappy > scoreTeamMad}
-            Team Happy Wins!
-        {:else if scoreTeamMad > scoreTeamHappy}
-            Team Mad Wins!
-        {:else}
-            It's a tie...
-        {/if}
-        </div>
-    {/if}
-    <a class="home-link" href="{base}">Home</a>
+	{#if $scores.teamGlad !== undefined && $scores.teamMad !== undefined}
+		<div class="inline-flex space-x-8 pb-4">
+			<p><strong>Team Glad:</strong> {$scores.teamGlad}</p>
+			<p><strong>Team Mad:</strong> {$scores.teamMad}</p>
+		</div>
+		<div class="text-center text-6xl">
+			{#if $scores.teamGlad > $scores.teamMad}
+				Team Glad Wins!
+			{:else if $scores.teamMad > $scores.teamGlad}
+				Team Mad Wins!
+			{:else}
+				It's a tie...
+			{/if}
+		</div>
+	{/if}
+	<a class="home-link" href={base}>Home</a>
 </strong>
 
 <style>
-    .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        height: 100%;
-        width: 100%;
-    }
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-around;
+		height: 100%;
+		width: 100%;
+	}
 
-    .home-link:hover {
-        background-color: #f0f0f0;
-    }
+	.home-link:hover {
+		background-color: #f0f0f0;
+	}
 
-    .home-link {
-        text-align: center;
-        border: 2px solid black;
-        padding: 1rem 2rem;
-        text-decoration: none;
-        color: black;
-    }
+	.home-link {
+		text-align: center;
+		border: 2px solid darkslategray;
+		border-radius: 0.25rem;
+		padding: 1rem 2rem;
+	}
 </style>
