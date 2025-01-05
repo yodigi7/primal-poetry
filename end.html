@@ -15,18 +15,18 @@
 		
 		<link href="./_app/immutable/assets/0.B190SpmS.css" rel="stylesheet">
 		<link href="./_app/immutable/assets/3.BIFaO-3x.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.wPoxb8oK.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.DBTtE37V.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.BcS0LAww.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.4xY6I4Ld.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/runtime.D0LUdKCG.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.BT908uFy.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.5hg7fLmv.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.D3_0PJk1.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index-client.CQl7z0PD.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.DpRomNLH.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.BKbh59oG.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/render.Bb5T0tbW.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/disclose-version.D-MEG6Zz.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/store.TjD0NU_s.js">
 		<link rel="modulepreload" href="./_app/immutable/nodes/0.DXO8VWFm.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/3.CFKbMQbj.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/3.CfMUT8e1.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/legacy.CpAS9aaG.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/attributes.BBITEWzD.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/lifecycle.CZ8tZpR-.js">
@@ -37,7 +37,7 @@
 			
 			<script>
 				{
-					__sveltekit_10midmc = {
+					__sveltekit_1e32d6g = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						assets: "/primal-poetry"
 					};
@@ -45,8 +45,8 @@
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("./_app/immutable/entry/start.wPoxb8oK.js"),
-						import("./_app/immutable/entry/app.DpRomNLH.js")
+						import("./_app/immutable/entry/start.BcS0LAww.js"),
+						import("./_app/immutable/entry/app.BKbh59oG.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 3],
@@ -59,4 +59,14 @@
 			</script>
 		</div>
 	</body>
+	<script>
+		(function () {
+			if ('serviceWorker' in navigator) {
+				navigator.serviceWorker
+					.register('/primal-poetry/service-worker.js', { scope: '/primal-poetry/' })
+					.then(() => console.log('Service Worker registered successfully.'))
+					.catch((error) => console.log('Service Worker registration failed:', error));
+			}
+		})();
+	</script>
 </html>
