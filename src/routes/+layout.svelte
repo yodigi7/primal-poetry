@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import '../app.css';
+	import { settings } from '../stores/settingStore';
 	let { children } = $props();
 </script>
 
 <header>
 	<h1><a href={base}><strong>Primal Poetry</strong></a></h1>
+	{$settings.turnDuration}
 </header>
 
 <div>

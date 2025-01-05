@@ -5,6 +5,7 @@
 	import fullWordList from '../../word-list.json';
 	import { settings, settingsFromLocalStorage } from '../../stores/settingStore';
 	import { scores } from '../../stores/scoreStore';
+	import { clearGameState, getGameState, updateGameState } from '$lib/gameState';
 
 	let wordList = fullWordList;
 	// Randomize wordList to "shuffle deck"
@@ -24,9 +25,8 @@
 	 * @return {boolean} returns true if found game state, otherwise return false if starting fresh
 	 */
 	function loadGameState() {
-		const gameStateString = sessionStorage.getItem('gameState');
-		if (gameStateString) {
-			const gameState = JSON.parse(gameStateString);
+		const gameState = getGameState();
+		if (gameState) {
 			let tempScoreGlad, tempScoreMad;
 			({
 				scoreTeamGlad: tempScoreGlad,
@@ -48,9 +48,9 @@
 	 * Save the current game state to local storage
 	 */
 	function saveGameState() {
-		let tempScoreGlad = $scores.teamGlad;
-		let tempScoreMad = $scores.teamMad;
-		const gameState = JSON.stringify({
+		const tempScoreGlad = $scores.teamGlad;
+		const tempScoreMad = $scores.teamMad;
+		const gameState = {
 			scoreTeamGlad: tempScoreGlad,
 			scoreTeamMad: tempScoreMad,
 			timer,
@@ -59,8 +59,8 @@
 			otherTeam,
 			currentWord1,
 			currentWord3
-		});
-		sessionStorage.setItem('gameState', gameState);
+		};
+		updateGameState(gameState);
 	}
 
 	/**
@@ -102,12 +102,12 @@
 	 * Draw new words from the top of the deck, end game if no cards left
 	 */
 	function getNewWords() {
-		let card = wordList.shift();
+		const card = wordList.shift();
 		if (card === undefined) {
 			endGame();
 		} else {
-			currentWord1 = card[1];
-			currentWord3 = card[3];
+			currentWord1 = card["one"];
+			currentWord3 = card["three"];
 		}
 	}
 
@@ -143,12 +143,13 @@
 	 * Go to end game screen.
 	 */
 	function endGame() {
-		sessionStorage.removeItem('gameState');
+		clearGameState();
 		goto(`${base}/end`);
 	}
 
 	onMount(() => {
 		settingsFromLocalStorage();
+		timer = $settings.turnDuration;
 		if (!loadGameState()) {
 			getNewWords();
 		}
