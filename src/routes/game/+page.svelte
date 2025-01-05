@@ -3,7 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import fullWordList from '../../word-list.json';
-	import { settings } from '../../stores/settingStore';
+	import { settings, settingsFromLocalStorage } from '../../stores/settingStore';
 	import { scores } from '../../stores/scoreStore';
 
 	let wordList = fullWordList;
@@ -148,6 +148,7 @@
 	}
 
 	onMount(() => {
+		settingsFromLocalStorage();
 		if (!loadGameState()) {
 			getNewWords();
 		}
@@ -215,7 +216,7 @@
 	button {
 		border: 2px solid darkslategray;
 		border-radius: 0.25rem;
-		padding: 5px 35px;
+		padding: 0.25rem 2rem;
 	}
 	.activeTeam {
 		text-decoration: underline;

@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import '../app.css';
 	let { children } = $props();
 </script>
 
 <header>
-	<h1><strong>Primal Poetry</strong></h1>
+	<h1><a href={base}><strong>Primal Poetry</strong></a></h1>
 </header>
 
 <div>
