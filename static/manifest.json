@@ -15,18 +15,14 @@
 	"orientation": "portrait",
 	"background_color": "#FFD1A2",
 	"display": "standalone",
-	"display_override": [
-		"standalone",
-		"window-controls-overlay",
-		"fullscreen",
-		"minimal",
-		"browser"
+	"display_override": ["standalone", "window-controls-overlay", "fullscreen", "minimal", "browser"],
+	"shortcuts": [
+		{
+			"name": "New Game",
+			"short_name": "New",
+			"url": "/primal-poetry/game"
+		}
 	],
-	"shortcuts": [{
-		"name": "New Game",
-		"short_name": "New",
-		"url": "/game"
-	}],
 	"theme_color": "#FFD1A2",
 	"related_applications": []
 }
