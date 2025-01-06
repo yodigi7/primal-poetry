@@ -1,0 +1,1 @@
+import{w as m}from"./index.CNdVUOjN.js";const s={teamGlad:0,teamMad:0},r=m(s);function n(){const e=sessionStorage.getItem("gameState");if(e){const o=JSON.parse(e);let t,a;return{scoreTeamGlad:t,scoreTeamMad:a}=o,r.set({teamGlad:t,teamMad:a}),!0}return!1}function S(){r.set(s)}export{n as l,S as r,r as s};

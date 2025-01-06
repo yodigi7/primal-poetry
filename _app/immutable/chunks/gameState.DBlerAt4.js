@@ -1,0 +1,1 @@
+const t="gameState";function a(){const e=sessionStorage.getItem(t);return e?JSON.parse(e):null}function s(){sessionStorage.removeItem(t)}function n(e){sessionStorage.setItem(t,JSON.stringify(e))}export{s as c,a as g,n as u};

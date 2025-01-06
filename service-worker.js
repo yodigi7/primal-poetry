@@ -88,9 +88,9 @@ self.addEventListener('fetch', (event) => {
 		// If there’s nothing in cache, wait for the fetch.
 		// If neither yields a response, return offline pages.
 		event.respondWith(
-			Promise.race([fetched.catch((_) => cached), cached])
+			Promise.race([fetched.catch(() => cached), cached])
 				.then((resp) => resp || fetched)
-				.catch((_) => {
+				.catch(() => {
 					/* eat any errors */
 				})
 		);
@@ -99,7 +99,7 @@ self.addEventListener('fetch', (event) => {
 		event.waitUntil(
 			Promise.all([fetchedCopy, caches.open(CACHE_NAME)])
 				.then(([response, cache]) => response.ok && cache.put(event.request, response))
-				.catch((_) => {
+				.catch(() => {
 					/* eat any errors */
 				})
 		);

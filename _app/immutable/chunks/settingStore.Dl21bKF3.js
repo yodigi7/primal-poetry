@@ -1,0 +1,1 @@
+import{w as e}from"./index.CNdVUOjN.js";const n="settings";function r(){const t=localStorage.getItem(n);return t?JSON.parse(t):null}function i(t){return t&&t.turnDuration&&t.turnDuration>0?(localStorage.setItem(n,JSON.stringify(t)),!0):!1}const s={turnDuration:90},o=e(s);function u(){const t=r();t&&o.set(t)}export{o as a,s as d,u as s,i as u};
