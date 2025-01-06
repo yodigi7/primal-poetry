@@ -7,3 +7,18 @@ html {
 	font-weight: 400;
 	font-style: normal;
 }
+
+button,
+.btn {
+	text-align: center;
+	border: 2px solid darkslategray;
+	border-radius: 0.25rem;
+	padding: 1rem 2rem;
+	width: 100%;
+	max-width: 200px;
+}
+
+button:hover,
+.btn:hover {
+	background-color: #f0f0f0;
+}

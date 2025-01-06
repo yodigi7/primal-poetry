@@ -10,15 +10,27 @@
 	let wordList = fullWordList;
 	// Randomize wordList to "shuffle deck"
 	wordList.sort(() => Math.random() - 0.5);
-	/** @type {string} */
+	/** @type {string | undefined} */
 	let currentWord1;
-	/** @type {string} */
+	/** @type {string | undefined} */
 	let currentWord3;
 	let timer = $settings.turnDuration;
 	let currentTeam = 1; // Track which team is playing (1 or 2)
 	let otherTeam = currentTeam === 1 ? 'Mad' : 'Glad';
-	/** @type {number} */
+	/** @type {number | undefined} */
 	let interval;
+
+	function resetDefaults() {
+		wordList = fullWordList;
+		// Randomize wordList to "shuffle deck"
+		wordList.sort(() => Math.random() - 0.5);
+		currentWord1 = undefined;
+		currentWord3 = undefined;
+		timer = $settings.turnDuration;
+		currentTeam = 1; // Track which team is playing (1 or 2)
+		otherTeam = currentTeam === 1 ? 'Mad' : 'Glad';
+		interval = undefined;
+	}
 
 	/**
 	 * Loads the game state from local storage
@@ -133,9 +145,9 @@
 		}
 	}
 
-	let minus1 = () => updateScore(-1);
-	let plus1 = () => updateScore(1);
-	let plus3 = () => updateScore(3);
+	const minus1 = () => updateScore(-1);
+	const plus1 = () => updateScore(1);
+	const plus3 = () => updateScore(3);
 
 	/**
 	 * Remove saved game state from local storage.
@@ -151,6 +163,7 @@
 		settingsFromLocalStorage();
 		timer = $settings.turnDuration;
 		if (!loadGameState()) {
+			resetDefaults();
 			getNewWords();
 		}
 		startRound();
@@ -161,7 +174,7 @@
 	});
 </script>
 
-<div class="flex min-h-full flex-col items-center justify-around">
+<div class="flex min-h-full flex-col items-center justify-around sm:w-4/5">
 	<div>
 		<div class="inline-flex space-x-8 pb-4">
 			<p class={currentTeam === 1 ? 'activeTeam' : ''}>
@@ -173,28 +186,35 @@
 				{$scores.teamMad}
 			</p>
 		</div>
-		<p class="text-center">Time remaining: {timer}s</p>
+
+		<div class="py-4 text-center">
+			{#if wordList.length <= 0}
+				<strong>OUT OF CARDS!</strong>
+			{:else if timer === 0}
+				<p class="py-2 text-xl"><strong>Out of Time!</strong></p>
+				<p>Pass to Team {otherTeam}</p>
+			{:else}
+				<p>Time remaining: {timer}s</p>
+			{/if}
+		</div>
 	</div>
 
-	<div class="flex flex-col space-y-1">
-		<p>1 point: <strong class="readable text-2xl">{currentWord1}</strong></p>
-		<p>3 point: <strong class="readable text-2xl">{currentWord3}</strong></p>
+	<div class="flex w-full flex-col gap-2">
+		<p class="wordP">
+			1 point: <strong class="readable text-4xl sm:text-6xl">{currentWord1}</strong>
+		</p>
+		<p class="wordP">
+			3 point: <strong class="readable text-4xl sm:text-6xl">{currentWord3}</strong>
+		</p>
 	</div>
 
-	<div class="py-8">
-		<button class="minus1" on:click={minus1}>-1</button>
-		<button class="plus1" on:click={plus1}>+1</button>
-		<button class="plus3" on:click={plus3}>+3</button>
+	<div class="flex w-full flex-col gap-4 pt-4 sm:flex-row">
+		<button class="minus1 sm:flex-1" on:click={minus1}>-1</button>
+		<button class="plus1 sm:flex-1" on:click={plus1}>+1</button>
+		<button class="plus3 sm:flex-1" on:click={plus3}>+3</button>
 	</div>
-
-	{#if wordList.length <= 0}
-		<strong>OUT OF CARDS!</strong>
-	{/if}
-
-	{#if timer === 0}
-		<p class="text-xl"><strong>Out of Time!</strong></p>
-		<p>Pass to Team {otherTeam}</p>
-		<div class="flex flex-col space-y-4 py-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+	{#if timer === 0 || wordList.length <= 0}
+		<div class="flex flex-col gap-4 pt-8 sm:flex-row">
 			<button on:click={switchTurn}>Start Turn</button>
 			<button on:click={endGame}>End Game</button>
 		</div>
@@ -214,13 +234,27 @@
 	.plus3 {
 		background-color: #4caf50;
 	}
-	button {
-		border: 2px solid darkslategray;
-		border-radius: 0.25rem;
-		padding: 0.25rem 2rem;
-	}
 	.activeTeam {
 		text-decoration: underline;
 		text-underline-offset: 4px;
+	}
+	button {
+		width: auto;
+		max-width: none;
+	}
+	.wordP {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+		align-items: center;
+	}
+	@media only screen and (min-width: 768px) {
+		.wordP {
+			flex-direction: row;
+			align-items: center;
+			gap: 2rem;
+			text-align: start;
+			align-items: center;
+		}
 	}
 </style>

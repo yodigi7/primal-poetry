@@ -1,9 +1,10 @@
 import { writable } from 'svelte/store';
 
-export const scores = writable({
+const defaultScores = {
 	teamGlad: 0,
 	teamMad: 0
-});
+};
+export const scores = writable(defaultScores);
 
 export function loadGameState() {
 	const gameStateString = sessionStorage.getItem('gameState');
@@ -18,5 +19,5 @@ export function loadGameState() {
 }
 
 export function resetScores() {
-	scores.set({ teamGlad: 0, teamMad: 0 });
+	scores.set(defaultScores);
 }

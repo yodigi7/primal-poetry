@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { clearGameState, getGameState } from '$lib/gameState';
 	import { goto } from '$app/navigation';
+	import { resetScores } from '../stores/scoreStore';
 	/** @type {GameState | null}*/
 	let gameState;
 	onMount(() => {
@@ -11,16 +12,17 @@
 	});
 	function newGame() {
 		clearGameState();
+		resetScores();
 		goto(`${base}/game`);
 	}
 </script>
 
-<div class="my-auto flex flex-wrap justify-center gap-8 px-8 pb-20">
-	<a href="https://www.youtube.com/watch?v=hpbqepbvoJ8" target="_blank"
+<div class="my-auto flex flex-col justify-center gap-8 px-8 pb-20">
+	<a href="https://www.youtube.com/watch?v=hpbqepbvoJ8" target="_blank" class="btn"
 		><strong>How to Play</strong></a
 	>
 	<!-- TODO: add in a settings page -->
-	<a class="inline-flex items-center justify-center text-center" href="{base}/settings"
+	<a class="btn inline-flex items-center justify-center text-center" href="{base}/settings"
 		><strong>Settings</strong>
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 			><path
@@ -29,7 +31,7 @@
 		>
 	</a>
 	{#if gameState}
-		<a href="{base}/game"><strong>Continue Game</strong></a>
+		<a href="{base}/game" class="btn"><strong>Continue Game</strong></a>
 	{/if}
 	<button on:click={newGame}><strong>New Game</strong></button>
 </div>
@@ -37,14 +39,15 @@
 <style>
 	a,
 	button {
-		text-align: center;
-		border: 2px solid darkslategray;
-		border-radius: 0.25rem;
-		padding: 1rem 2rem;
 		flex: 1 1 auto;
 	}
 
 	a:hover {
 		background-color: #f0f0f0e0;
+	}
+
+	svg {
+		height: 1.5rem;
+		padding-left: 1rem;
 	}
 </style>

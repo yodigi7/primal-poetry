@@ -8,13 +8,13 @@
 	});
 </script>
 
-<strong class="container">
+<div class="flex h-full w-full flex-col items-center justify-around gap-4">
 	{#if $scores.teamGlad !== undefined && $scores.teamMad !== undefined}
-		<div class="inline-flex space-x-8 pb-4">
-			<p><strong>Team Glad:</strong> {$scores.teamGlad}</p>
-			<p><strong>Team Mad:</strong> {$scores.teamMad}</p>
+		<div class="inline-flex gap-8">
+			<p><strong>Team Glad: {$scores.teamGlad}</strong></p>
+			<p><strong>Team Mad: {$scores.teamMad}</strong></p>
 		</div>
-		<div class="text-center text-6xl">
+		<div class="text-center text-6xl leading-snug">
 			{#if $scores.teamGlad > $scores.teamMad}
 				Team Glad Wins!
 			{:else if $scores.teamMad > $scores.teamGlad}
@@ -24,27 +24,5 @@
 			{/if}
 		</div>
 	{/if}
-	<a class="home-link" href={base}>Home</a>
-</strong>
-
-<style>
-	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: space-around;
-		height: 100%;
-		width: 100%;
-	}
-
-	.home-link:hover {
-		background-color: #f0f0f0;
-	}
-
-	.home-link {
-		text-align: center;
-		border: 2px solid darkslategray;
-		border-radius: 0.25rem;
-		padding: 1rem 2rem;
-	}
-</style>
+	<a class="btn" href={base}>Home</a>
+</div>
