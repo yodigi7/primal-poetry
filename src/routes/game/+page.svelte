@@ -106,8 +106,8 @@
 		if (card === undefined) {
 			endGame();
 		} else {
-			currentWord1 = card["one"];
-			currentWord3 = card["three"];
+			currentWord1 = card['one'];
+			currentWord3 = card['three'];
 		}
 	}
 

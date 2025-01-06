@@ -5,15 +5,14 @@
 
 const key = 'settings';
 
-
 /**
  * @returns {Settings | null}
  */
 export function getSettings() {
-    const settingsString = localStorage.getItem(key);
-    if (settingsString) {
-        return JSON.parse(settingsString);
-    }
+	const settingsString = localStorage.getItem(key);
+	if (settingsString) {
+		return JSON.parse(settingsString);
+	}
 	return null;
 }
 
@@ -24,7 +23,7 @@ export function getSettings() {
 export function updateSettings(settings) {
 	if (settings && settings.turnDuration && settings.turnDuration > 0) {
 		localStorage.setItem(key, JSON.stringify(settings));
-        return true;
+		return true;
 	}
-    return false;
+	return false;
 }

@@ -15,15 +15,17 @@
 	onMount(() => {
 		settingsFromLocalStorage();
 		unsubscriber = settings.subscribe((value) => {
-            let isSuccessfullyUpdated = updateSettings(value);
-            if (!isSuccessfullyUpdated) {
-                console.log("Issue updating settings");
-            }
+			let isSuccessfullyUpdated = updateSettings(value);
+			if (!isSuccessfullyUpdated) {
+				console.log('Issue updating settings');
+			}
 		});
 	});
 
 	onDestroy(() => {
-		unsubscriber && unsubscriber();
+		if (unsubscriber) {
+			unsubscriber();
+		}
 	});
 </script>
 
