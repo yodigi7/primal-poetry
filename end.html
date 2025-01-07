@@ -13,22 +13,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Primal Poetry</title>
 		
-		<link href="./_app/immutable/assets/0.BH88vv6-.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.BIY-4PiR.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/entry.N2Cn4_ER.js">
+		<link href="./_app/immutable/assets/0.DzZclavS.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.Ca9RMKDP.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/entry.DZderCZZ.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/runtime.CHsQcZc1.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.CNdVUOjN.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/paths.BhLMUlUr.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/paths.BmbQ4qLK.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index-client.Br8p-eIL.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.BwJADjOa.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.CxqZZRTS.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/render.VOJNs8tS.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/events.CwpXpTVr.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/disclose-version.DiQWVNdw.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/if.u8gU_TQf.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/store.BAJ648UJ.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/0.BGmi25K6.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.Blu40SLN.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/attributes.CqKKJ46u.js">
-		<link rel="modulepreload" href="./_app/immutable/nodes/3.BrYzeGao.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/3.b8gfQSe5.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/legacy.fiHPvv0E.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/scoreStore.CCpZMhbG.js">
 	</head>
@@ -37,7 +37,7 @@
 			
 			<script>
 				{
-					__sveltekit_1f6igre = {
+					__sveltekit_19gaxy6 = {
 						base: new URL(".", location).pathname.slice(0, -1),
 						assets: "/primal-poetry"
 					};
@@ -45,8 +45,8 @@
 					const element = document.currentScript.parentElement;
 
 					Promise.all([
-						import("./_app/immutable/entry/start.BIY-4PiR.js"),
-						import("./_app/immutable/entry/app.BwJADjOa.js")
+						import("./_app/immutable/entry/start.Ca9RMKDP.js"),
+						import("./_app/immutable/entry/app.CxqZZRTS.js")
 					]).then(([kit, app]) => {
 						kit.start(app, element, {
 							node_ids: [0, 3],
@@ -55,6 +55,12 @@
 							error: null
 						});
 					});
+
+					if ('serviceWorker' in navigator) {
+						addEventListener('load', function () {
+							navigator.serviceWorker.register('./service-worker.js');
+						});
+					}
 				}
 			</script>
 		</div>
